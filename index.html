@@ -1,0 +1,1039 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0ea5a8" />
+
+    <title>Hospital Management — Dashboard</title>
+    <meta
+      name="description"
+      content="Professional hospital management dashboard."
+    />
+
+    <!-- Google Fonts (professional, highly readable) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome (icons) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <!--
+      Layout notes:
+      - Top navbar is always visible.
+      - Sidebar collapses into an overlay drawer on mobile.
+      - Main content uses card-based UI with consistent spacing & typography.
+    -->
+
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <div class="app" id="appRoot">
+      <!-- Top Navbar -->
+      <header class="topbar" role="banner">
+        <div class="topbar__left">
+          <button
+            class="icon-btn topbar__menu"
+            type="button"
+            aria-label="Open menu"
+            aria-controls="sidebar"
+            aria-expanded="false"
+            id="sidebarToggle"
+          >
+            <i class="fa-solid fa-bars" aria-hidden="true"></i>
+          </button>
+
+          <div class="brand" aria-label="Hospital brand">
+            <div class="brand__logo" aria-hidden="true">
+              <i class="fa-solid fa-hospital" aria-hidden="true"></i>
+              <span class="brand__cross">
+                <i class="fa-solid fa-plus" aria-hidden="true"></i>
+              </span>
+            </div>
+            <div class="brand__text">
+              <div class="brand__name">Hospital Management</div>
+              <div class="brand__tag">Care. Precision. Compassion.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topbar__right" role="navigation" aria-label="Top actions">
+          <button
+            class="icon-btn"
+            type="button"
+            aria-label="Notifications"
+            id="notificationBtn"
+          >
+            <i class="fa-regular fa-bell" aria-hidden="true"></i>
+            <span class="badge" id="notificationBadge" aria-label="3 unread notifications">3</span>
+          </button>
+
+          <div class="profile" role="button" tabindex="0" aria-label="Admin profile">
+            <div class="profile__avatar" aria-hidden="true">
+              <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
+            </div>
+            <div class="profile__meta">
+              <div class="profile__name">Admin</div>
+              <div class="profile__role">System Administrator</div>
+            </div>
+            <i class="fa-solid fa-chevron-down profile__chev" aria-hidden="true"></i>
+          </div>
+        </div>
+      </header>
+
+      <!-- Sidebar -->
+      <aside class="sidebar" id="sidebar" aria-label="Sidebar navigation">
+        <div class="sidebar__header">
+          <div class="sidebar__title">Navigation</div>
+          <button
+            class="icon-btn sidebar__close"
+            type="button"
+            aria-label="Close menu"
+            id="sidebarClose"
+          >
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          </button>
+        </div>
+
+        <nav class="nav" aria-label="Primary">
+          <!--
+            Data-route is used by JS for active highlighting.
+            In a real app, these would navigate to pages/routes.
+          -->
+          <a class="nav__item is-active" href="#" data-route="dashboard">
+            <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+            <span>Dashboard</span>
+          </a>
+          <a class="nav__item" href="#" data-route="patients">
+            <i class="fa-solid fa-hospital-user" aria-hidden="true"></i>
+            <span>Patients</span>
+          </a>
+          <a class="nav__item" href="#" data-route="doctors">
+            <i class="fa-solid fa-user-doctor" aria-hidden="true"></i>
+            <span>Doctors</span>
+          </a>
+          <a class="nav__item" href="#" data-route="appointments">
+            <i class="fa-regular fa-calendar-check" aria-hidden="true"></i>
+            <span>Appointments</span>
+          </a>
+          <a class="nav__item" href="#" data-route="departments">
+            <i class="fa-solid fa-building-user" aria-hidden="true"></i>
+            <span>Departments</span>
+          </a>
+          <a class="nav__item" href="#" data-route="pharmacy">
+            <i class="fa-solid fa-prescription-bottle-medical" aria-hidden="true"></i>
+            <span>Pharmacy</span>
+          </a>
+          <a class="nav__item" href="#" data-route="laboratory">
+            <i class="fa-solid fa-vial" aria-hidden="true"></i>
+            <span>Laboratory</span>
+          </a>
+          <a class="nav__item" href="#" data-route="billing">
+            <i class="fa-solid fa-file-invoice-dollar" aria-hidden="true"></i>
+            <span>Billing</span>
+          </a>
+
+          <div class="nav__divider" role="separator" aria-hidden="true"></div>
+
+          <a class="nav__item" href="#" data-route="settings">
+            <i class="fa-solid fa-gear" aria-hidden="true"></i>
+            <span>Settings</span>
+          </a>
+          <a class="nav__item nav__item--danger" href="#" data-route="logout">
+            <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+            <span>Logout</span>
+          </a>
+        </nav>
+
+        <div class="sidebar__footer">
+          <div class="mini-card">
+            <div class="mini-card__icon" aria-hidden="true">
+              <i class="fa-solid fa-heart-pulse" aria-hidden="true"></i>
+            </div>
+            <div class="mini-card__text">
+              <div class="mini-card__title">System Status</div>
+              <div class="mini-card__meta"><span class="dot dot--ok"></span> Operational</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Overlay for mobile sidebar -->
+      <div class="overlay" id="overlay" aria-hidden="true"></div>
+
+      <!-- Main Content -->
+      <main class="main" id="main" role="main">
+        <div class="pages" id="pages">
+          <!-- =====================
+               DASHBOARD PAGE
+               ===================== -->
+          <section class="page is-active" data-page="dashboard" aria-label="Dashboard page">
+            <!-- Welcome -->
+            <section class="welcome card" aria-label="Welcome">
+          <div class="welcome__content">
+            <div class="welcome__eyebrow">Hospital Management Dashboard</div>
+            <h1 class="welcome__title">Welcome back, Admin</h1>
+            <p class="welcome__subtitle">
+              Delivering safer care through clarity, speed, and smart operations.
+            </p>
+
+            <div class="welcome__chips" aria-label="Quick highlights">
+              <span class="chip"><i class="fa-solid fa-shield-heart" aria-hidden="true"></i> Patient Safety</span>
+              <span class="chip"><i class="fa-solid fa-stethoscope" aria-hidden="true"></i> Clinical Readiness</span>
+              <span class="chip"><i class="fa-solid fa-bed" aria-hidden="true"></i> Bed Management</span>
+            </div>
+          </div>
+
+          <div class="welcome__art" aria-hidden="true">
+            <div class="pulse-ring"></div>
+            <div class="welcome__badge">
+              <div class="welcome__badgeTop">
+                <i class="fa-solid fa-syringe" aria-hidden="true"></i>
+                <span>Today</span>
+              </div>
+              <div class="welcome__badgeValue" id="todayDate">—</div>
+            </div>
+          </div>
+            </section>
+
+            <!-- Stats -->
+            <section class="stats" aria-label="Key statistics">
+          <article class="stat-card stat-card--patients" tabindex="0">
+            <div class="stat-card__top">
+              <div class="stat-card__icon" aria-hidden="true">
+                <i class="fa-solid fa-hospital-user" aria-hidden="true"></i>
+              </div>
+              <div class="stat-card__label">Total Patients</div>
+            </div>
+            <div class="stat-card__value" data-counter data-to="1284">0</div>
+            <div class="stat-card__meta">
+              <span class="trend trend--up"><i class="fa-solid fa-arrow-trend-up" aria-hidden="true"></i> 6.4%</span>
+              <span class="muted">vs last month</span>
+            </div>
+          </article>
+
+          <article class="stat-card stat-card--doctors" tabindex="0">
+            <div class="stat-card__top">
+              <div class="stat-card__icon" aria-hidden="true">
+                <i class="fa-solid fa-user-doctor" aria-hidden="true"></i>
+              </div>
+              <div class="stat-card__label">Doctors Available</div>
+            </div>
+            <div class="stat-card__value" data-counter data-to="38">0</div>
+            <div class="stat-card__meta">
+              <span class="trend trend--ok"><i class="fa-solid fa-circle-check" aria-hidden="true"></i> On schedule</span>
+            </div>
+          </article>
+
+          <article class="stat-card stat-card--appointments" tabindex="0">
+            <div class="stat-card__top">
+              <div class="stat-card__icon" aria-hidden="true">
+                <i class="fa-regular fa-calendar-check" aria-hidden="true"></i>
+              </div>
+              <div class="stat-card__label">Appointments Today</div>
+            </div>
+            <div class="stat-card__value" data-counter data-to="76">0</div>
+            <div class="stat-card__meta">
+              <span class="trend trend--up"><i class="fa-solid fa-clock" aria-hidden="true"></i> Next in 18m</span>
+            </div>
+          </article>
+
+          <article class="stat-card stat-card--beds" tabindex="0">
+            <div class="stat-card__top">
+              <div class="stat-card__icon" aria-hidden="true">
+                <i class="fa-solid fa-bed" aria-hidden="true"></i>
+              </div>
+              <div class="stat-card__label">Available Beds</div>
+            </div>
+            <div class="stat-card__value" data-counter data-to="112">0</div>
+            <div class="stat-card__meta">
+              <span class="trend trend--down"><i class="fa-solid fa-arrow-trend-down" aria-hidden="true"></i> 3.1%</span>
+              <span class="muted">occupancy rising</span>
+            </div>
+          </article>
+        </section>
+
+            <!-- Content Grid -->
+            <section class="grid" aria-label="Dashboard sections">
+          <!-- Recent Patients -->
+          <section class="card" aria-label="Recent patients">
+            <div class="card__header">
+              <div>
+                <h2 class="card__title">Recent Patients</h2>
+                <p class="card__subtitle">Latest admissions and recent visits.</p>
+              </div>
+              <button class="btn btn--ghost" type="button">
+                <i class="fa-solid fa-filter" aria-hidden="true"></i>
+                <span>View All</span>
+              </button>
+            </div>
+
+            <div class="table-wrap" role="region" aria-label="Recent patients table" tabindex="0">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Patient</th>
+                    <th>Department</th>
+                    <th>Status</th>
+                    <th class="t-right">Room</th>
+                  </tr>
+                </thead>
+                  <tbody id="dashboardRecentPatientsBody">
+                  <tr>
+                    <td>
+                      <div class="person">
+                        <div class="avatar" aria-hidden="true">AH</div>
+                        <div>
+                          <div class="person__name">Amina H.</div>
+                          <div class="person__meta">ID: P-10942</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Cardiology</td>
+                    <td><span class="status status--ok">Stable</span></td>
+                    <td class="t-right">B-214</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="person">
+                        <div class="avatar" aria-hidden="true">KS</div>
+                        <div>
+                          <div class="person__name">Karim S.</div>
+                          <div class="person__meta">ID: P-10941</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Orthopedics</td>
+                    <td><span class="status status--warn">Observation</span></td>
+                    <td class="t-right">C-108</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="person">
+                        <div class="avatar" aria-hidden="true">LM</div>
+                        <div>
+                          <div class="person__name">Leila M.</div>
+                          <div class="person__meta">ID: P-10940</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Laboratory</td>
+                    <td><span class="status status--info">Testing</span></td>
+                    <td class="t-right">—</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="person">
+                        <div class="avatar" aria-hidden="true">YO</div>
+                        <div>
+                          <div class="person__name">Youssef O.</div>
+                          <div class="person__meta">ID: P-10939</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Emergency</td>
+                    <td><span class="status status--danger">Critical</span></td>
+                    <td class="t-right">ER-03</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="person">
+                        <div class="avatar" aria-hidden="true">NF</div>
+                        <div>
+                          <div class="person__name">Nadia F.</div>
+                          <div class="person__meta">ID: P-10938</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Pediatrics</td>
+                    <td><span class="status status--ok">Stable</span></td>
+                    <td class="t-right">A-012</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- Today's Appointments -->
+          <section class="card" aria-label="Today's appointments">
+            <div class="card__header">
+              <div>
+                <h2 class="card__title">Today’s Appointments</h2>
+                <p class="card__subtitle">Quick view of the schedule.</p>
+              </div>
+              <button class="btn" type="button" id="addAppointmentBtn">
+                <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                <span>Add</span>
+              </button>
+            </div>
+
+            <div class="list" role="list" id="dashboardAppointmentsList" data-appointments-list="1">
+              <div class="list__item" role="listitem">
+                <div class="list__time">09:30</div>
+                <div class="list__content">
+                  <div class="list__title">Cardiology Consultation</div>
+                  <div class="list__meta">Dr. Selim R. • Room B-12</div>
+                </div>
+                <span class="pill pill--ok">Confirmed</span>
+              </div>
+              <div class="list__item" role="listitem">
+                <div class="list__time">10:15</div>
+                <div class="list__content">
+                  <div class="list__title">Lab Results Review</div>
+                  <div class="list__meta">Dr. Imene K. • Lab 2</div>
+                </div>
+                <span class="pill pill--info">In progress</span>
+              </div>
+              <div class="list__item" role="listitem">
+                <div class="list__time">12:00</div>
+                <div class="list__content">
+                  <div class="list__title">Pediatrics Follow-up</div>
+                  <div class="list__meta">Dr. Yacine B. • Room A-04</div>
+                </div>
+                <span class="pill pill--ok">Confirmed</span>
+              </div>
+              <div class="list__item" role="listitem">
+                <div class="list__time">14:20</div>
+                <div class="list__content">
+                  <div class="list__title">Orthopedic Imaging</div>
+                  <div class="list__meta">Dr. Meriem A. • Radiology</div>
+                </div>
+                <span class="pill pill--warn">Pending</span>
+              </div>
+              <div class="list__item" role="listitem">
+                <div class="list__time">16:00</div>
+                <div class="list__content">
+                  <div class="list__title">Pharmacy Medication Review</div>
+                  <div class="list__meta">Pharm. Hichem D. • Desk 1</div>
+                </div>
+                <span class="pill pill--info">Scheduled</span>
+              </div>
+            </div>
+
+            <div class="card__footer">
+              <div class="hint">
+                <i class="fa-regular fa-circle-question" aria-hidden="true"></i>
+                <span>Tip: Tap an item to mark as completed.</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Doctors on Duty -->
+          <section class="card" aria-label="Doctors on duty">
+            <div class="card__header">
+              <div>
+                <h2 class="card__title">Doctors on Duty</h2>
+                <p class="card__subtitle">Current shift coverage overview.</p>
+              </div>
+              <button class="btn btn--ghost" type="button">
+                <i class="fa-solid fa-user-group" aria-hidden="true"></i>
+                <span>Manage</span>
+              </button>
+            </div>
+
+            <div class="doctors" id="dashboardDoctorsGrid">
+              <article class="doctor" tabindex="0">
+                <div class="doctor__photo" role="img" aria-label="Doctor photo placeholder">
+                  <div class="doctor__initials">SR</div>
+                </div>
+                <div class="doctor__info">
+                  <div class="doctor__name">Dr. Selim R.</div>
+                  <div class="doctor__dept">Cardiology</div>
+                </div>
+                <div class="doctor__meta">
+                  <span class="dot dot--ok" aria-hidden="true"></span>
+                  <span>On duty</span>
+                </div>
+              </article>
+
+              <article class="doctor" tabindex="0">
+                <div class="doctor__photo" role="img" aria-label="Doctor photo placeholder">
+                  <div class="doctor__initials">IK</div>
+                </div>
+                <div class="doctor__info">
+                  <div class="doctor__name">Dr. Imene K.</div>
+                  <div class="doctor__dept">Laboratory</div>
+                </div>
+                <div class="doctor__meta">
+                  <span class="dot dot--ok" aria-hidden="true"></span>
+                  <span>On duty</span>
+                </div>
+              </article>
+
+              <article class="doctor" tabindex="0">
+                <div class="doctor__photo" role="img" aria-label="Doctor photo placeholder">
+                  <div class="doctor__initials">YB</div>
+                </div>
+                <div class="doctor__info">
+                  <div class="doctor__name">Dr. Yacine B.</div>
+                  <div class="doctor__dept">Pediatrics</div>
+                </div>
+                <div class="doctor__meta">
+                  <span class="dot dot--warn" aria-hidden="true"></span>
+                  <span>In rounds</span>
+                </div>
+              </article>
+
+              <article class="doctor" tabindex="0">
+                <div class="doctor__photo" role="img" aria-label="Doctor photo placeholder">
+                  <div class="doctor__initials">MA</div>
+                </div>
+                <div class="doctor__info">
+                  <div class="doctor__name">Dr. Meriem A.</div>
+                  <div class="doctor__dept">Orthopedics</div>
+                </div>
+                <div class="doctor__meta">
+                  <span class="dot dot--ok" aria-hidden="true"></span>
+                  <span>On duty</span>
+                </div>
+              </article>
+            </div>
+          </section>
+            </section>
+          </section>
+
+          <!-- =====================
+               PATIENTS PAGE
+               ===================== -->
+          <section class="page" data-page="patients" aria-label="Patients page">
+            <div class="page-header">
+              <div>
+                <div class="page-eyebrow">Directory</div>
+                <h1 class="page-title">Patients</h1>
+                <p class="page-subtitle">Browse and monitor patient status.</p>
+              </div>
+            </div>
+
+            <section class="card" aria-label="Add patient">
+              <div class="card__header">
+                <div>
+                  <h2 class="card__title">Add Patient</h2>
+                  <p class="card__subtitle">Creates a new patient in MySQL.</p>
+                </div>
+              </div>
+              <form class="form" id="addPatientForm">
+                <div class="form__grid">
+                  <label class="field">
+                    <span class="field__label">Full name</span>
+                    <input class="control" type="text" name="full_name" placeholder="e.g., Amina H." required />
+                  </label>
+                  <label class="field">
+                    <span class="field__label">Patient code (optional)</span>
+                    <input class="control" type="text" name="patient_code" placeholder="e.g., P-12345" />
+                  </label>
+                  <label class="field">
+                    <span class="field__label">Gender</span>
+                    <select class="control" name="gender">
+                      <option value="">—</option>
+                      <option value="female">Female</option>
+                      <option value="male">Male</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </label>
+                  <label class="field">
+                    <span class="field__label">Status</span>
+                    <select class="control" name="status">
+                      <option value="stable" selected>Stable</option>
+                      <option value="observation">Observation</option>
+                      <option value="testing">Testing</option>
+                      <option value="critical">Critical</option>
+                      <option value="discharged">Discharged</option>
+                    </select>
+                  </label>
+                  <label class="field">
+                    <span class="field__label">Phone (optional)</span>
+                    <input class="control" type="tel" name="phone" placeholder="+213 ..." />
+                  </label>
+                  <label class="field">
+                    <span class="field__label">Date of birth (optional)</span>
+                    <input class="control" type="date" name="dob" />
+                  </label>
+                </div>
+                <div class="form__actions">
+                  <button class="btn" type="submit">
+                    <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                    <span>Add Patient</span>
+                  </button>
+                  <div class="hint" id="addPatientMsg" aria-live="polite"></div>
+                </div>
+              </form>
+            </section>
+
+            <section class="card" aria-label="Patients list">
+              <div class="card__header">
+                <div>
+                  <h2 class="card__title">All Patients</h2>
+                  <p class="card__subtitle">Loaded from MySQL when available.</p>
+                </div>
+                <button class="btn btn--ghost" type="button" data-refresh="patients">
+                  <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+                  <span>Refresh</span>
+                </button>
+              </div>
+
+              <div class="table-wrap" role="region" aria-label="Patients table" tabindex="0">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Patient</th>
+                      <th>Department</th>
+                      <th>Status</th>
+                      <th class="t-right">Room</th>
+                    </tr>
+                  </thead>
+                  <tbody id="patientsTableBody"></tbody>
+                </table>
+              </div>
+            </section>
+          </section>
+
+          <!-- =====================
+               DOCTORS PAGE
+               ===================== -->
+          <section class="page" data-page="doctors" aria-label="Doctors page">
+            <div class="page-header">
+              <div>
+                <div class="page-eyebrow">Staff</div>
+                <h1 class="page-title">Doctors</h1>
+                <p class="page-subtitle">On duty, available, and in rounds.</p>
+              </div>
+            </div>
+
+            <section class="card" aria-label="Add doctor">
+              <div class="card__header">
+                <div>
+                  <h2 class="card__title">Add Doctor</h2>
+                  <p class="card__subtitle">Creates a new doctor in MySQL.</p>
+                </div>
+              </div>
+              <form class="form" id="addDoctorForm">
+                <div class="form__grid">
+                  <label class="field">
+                    <span class="field__label">Full name</span>
+                    <input class="control" type="text" name="full_name" placeholder="e.g., Dr. Meriem A." required />
+                  </label>
+                  <label class="field">
+                    <span class="field__label">Department</span>
+                    <select class="control" name="department_id" id="doctorDepartmentSelect" required>
+                      <option value="">Loading…</option>
+                    </select>
+                  </label>
+                  <label class="field">
+                    <span class="field__label">Status</span>
+                    <select class="control" name="status">
+                      <option value="available" selected>Available</option>
+                      <option value="on_duty">On duty</option>
+                      <option value="on_rounds">In rounds</option>
+                      <option value="off_duty">Off duty</option>
+                    </select>
+                  </label>
+                  <label class="field">
+                    <span class="field__label">Specialty (optional)</span>
+                    <input class="control" type="text" name="specialty" placeholder="e.g., Cardiology" />
+                  </label>
+                  <label class="field">
+                    <span class="field__label">Email (optional)</span>
+                    <input class="control" type="email" name="email" placeholder="name@hospital.com" />
+                  </label>
+                  <label class="field">
+                    <span class="field__label">Phone (optional)</span>
+                    <input class="control" type="tel" name="phone" placeholder="+213 ..." />
+                  </label>
+                </div>
+                <div class="form__actions">
+                  <button class="btn" type="submit">
+                    <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                    <span>Add Doctor</span>
+                  </button>
+                  <div class="hint" id="addDoctorMsg" aria-live="polite"></div>
+                </div>
+              </form>
+            </section>
+
+            <section class="card" aria-label="Doctors list">
+              <div class="card__header">
+                <div>
+                  <h2 class="card__title">Doctors Directory</h2>
+                  <p class="card__subtitle">Loaded from MySQL when available.</p>
+                </div>
+                <button class="btn btn--ghost" type="button" data-refresh="doctors">
+                  <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+                  <span>Refresh</span>
+                </button>
+              </div>
+              <div class="doctors" id="doctorsGrid"></div>
+            </section>
+          </section>
+
+          <!-- =====================
+               APPOINTMENTS PAGE
+               ===================== -->
+          <section class="page" data-page="appointments" aria-label="Appointments page">
+            <div class="page-header">
+              <div>
+                <div class="page-eyebrow">Scheduling</div>
+                <h1 class="page-title">Appointments</h1>
+                <p class="page-subtitle">Today’s schedule and visit flow.</p>
+              </div>
+            </div>
+
+            <section class="card" aria-label="Appointments list">
+              <div class="card__header">
+                <div>
+                  <h2 class="card__title">Today’s Appointments</h2>
+                  <p class="card__subtitle">Tap an item to mark completed (UI only).</p>
+                </div>
+                <button class="btn btn--ghost" type="button" data-refresh="appointments">
+                  <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+                  <span>Refresh</span>
+                </button>
+              </div>
+
+              <div class="list" role="list" id="appointmentsList" data-appointments-list="1"></div>
+              <div class="card__footer">
+                <div class="hint">
+                  <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+                  <span>Showing appointments for today.</span>
+                </div>
+              </div>
+            </section>
+          </section>
+
+          <!-- =====================
+               DEPARTMENTS PAGE
+               ===================== -->
+          <section class="page" data-page="departments" aria-label="Departments page">
+            <div class="page-header">
+              <div>
+                <div class="page-eyebrow">Operations</div>
+                <h1 class="page-title">Departments</h1>
+                <p class="page-subtitle">Clinical and support units.</p>
+              </div>
+            </div>
+
+            <section class="card" aria-label="Departments list">
+              <div class="card__header">
+                <div>
+                  <h2 class="card__title">Departments</h2>
+                  <p class="card__subtitle">Loaded from MySQL.</p>
+                </div>
+                <button class="btn btn--ghost" type="button" data-refresh="departments">
+                  <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+                  <span>Refresh</span>
+                </button>
+              </div>
+              <div class="table-wrap" role="region" aria-label="Departments table" tabindex="0">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Location</th>
+                      <th>Phone</th>
+                    </tr>
+                  </thead>
+                  <tbody id="departmentsTableBody"></tbody>
+                </table>
+              </div>
+            </section>
+          </section>
+
+          <!-- =====================
+               PHARMACY PAGE
+               ===================== -->
+          <section class="page" data-page="pharmacy" aria-label="Pharmacy page">
+            <div class="page-header">
+              <div>
+                <div class="page-eyebrow">Inventory</div>
+                <h1 class="page-title">Pharmacy</h1>
+                <p class="page-subtitle">Medication stock and supply status.</p>
+              </div>
+            </div>
+
+            <section class="card" aria-label="Pharmacy inventory">
+              <div class="card__header">
+                <div>
+                  <h2 class="card__title">Stock Overview</h2>
+                  <p class="card__subtitle">Loaded from MySQL.</p>
+                </div>
+                <button class="btn btn--ghost" type="button" data-refresh="pharmacy">
+                  <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+                  <span>Refresh</span>
+                </button>
+              </div>
+              <div class="table-wrap" role="region" aria-label="Pharmacy table" tabindex="0">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Item</th>
+                      <th>Category</th>
+                      <th>Status</th>
+                      <th class="t-right">Stock</th>
+                    </tr>
+                  </thead>
+                  <tbody id="pharmacyTableBody"></tbody>
+                </table>
+              </div>
+            </section>
+          </section>
+
+          <!-- =====================
+               LABORATORY PAGE
+               ===================== -->
+          <section class="page" data-page="laboratory" aria-label="Laboratory page">
+            <div class="page-header">
+              <div>
+                <div class="page-eyebrow">Diagnostics</div>
+                <h1 class="page-title">Laboratory</h1>
+                <p class="page-subtitle">Recent test orders and statuses.</p>
+              </div>
+            </div>
+
+            <section class="card" aria-label="Laboratory tests">
+              <div class="card__header">
+                <div>
+                  <h2 class="card__title">Lab Tests</h2>
+                  <p class="card__subtitle">Loaded from MySQL.</p>
+                </div>
+                <button class="btn btn--ghost" type="button" data-refresh="laboratory">
+                  <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+                  <span>Refresh</span>
+                </button>
+              </div>
+              <div class="table-wrap" role="region" aria-label="Laboratory table" tabindex="0">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Patient</th>
+                      <th>Test</th>
+                      <th>Priority</th>
+                      <th>Status</th>
+                      <th class="t-right">Ordered</th>
+                    </tr>
+                  </thead>
+                  <tbody id="laboratoryTableBody"></tbody>
+                </table>
+              </div>
+            </section>
+          </section>
+
+          <!-- =====================
+               BILLING PAGE
+               ===================== -->
+          <section class="page" data-page="billing" aria-label="Billing page">
+            <div class="page-header">
+              <div>
+                <div class="page-eyebrow">Finance</div>
+                <h1 class="page-title">Billing</h1>
+                <p class="page-subtitle">Bills and line items (read-only).</p>
+              </div>
+            </div>
+
+            <section class="card" aria-label="Create bill">
+              <div class="card__header">
+                <div>
+                  <h2 class="card__title">Create Bill</h2>
+                  <p class="card__subtitle">Creates a new bill in MySQL (total starts at 0).</p>
+                </div>
+              </div>
+              <form class="form" id="addBillForm">
+                <div class="form__grid">
+                  <label class="field">
+                    <span class="field__label">Patient</span>
+                    <select class="control" name="patient_id" id="billPatientSelect" required>
+                      <option value="">Loading…</option>
+                    </select>
+                  </label>
+                  <label class="field">
+                    <span class="field__label">Currency</span>
+                    <select class="control" name="currency">
+                      <option value="DZD" selected>DZD</option>
+                      <option value="EUR">EUR</option>
+                      <option value="USD">USD</option>
+                    </select>
+                  </label>
+                  <label class="field">
+                    <span class="field__label">Status</span>
+                    <select class="control" name="status">
+                      <option value="unpaid" selected>Unpaid</option>
+                      <option value="paid">Paid</option>
+                      <option value="partially_paid">Partially paid</option>
+                      <option value="void">Void</option>
+                    </select>
+                  </label>
+                  <label class="field">
+                    <span class="field__label">Bill No (optional)</span>
+                    <input class="control" type="text" name="bill_no" placeholder="Auto-generated if empty" />
+                  </label>
+                </div>
+                <div class="form__actions">
+                  <button class="btn" type="submit">
+                    <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                    <span>Create Bill</span>
+                  </button>
+                  <div class="hint" id="addBillMsg" aria-live="polite"></div>
+                </div>
+              </form>
+            </section>
+
+            <section class="card" aria-label="Bills">
+              <div class="card__header">
+                <div>
+                  <h2 class="card__title">Bills</h2>
+                  <p class="card__subtitle">Click a bill to view items.</p>
+                </div>
+                <button class="btn btn--ghost" type="button" data-refresh="billing">
+                  <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+                  <span>Refresh</span>
+                </button>
+              </div>
+              <div class="table-wrap" role="region" aria-label="Billing table" tabindex="0">
+                <table class="table" id="billingTable">
+                  <thead>
+                    <tr>
+                      <th>Bill No</th>
+                      <th>Patient</th>
+                      <th>Date</th>
+                      <th>Status</th>
+                      <th class="t-right">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody id="billingTableBody"></tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="card" aria-label="Bill items">
+              <div class="card__header">
+                <div>
+                  <h2 class="card__title">Bill Items</h2>
+                  <p class="card__subtitle" id="billingItemsSubtitle">Select a bill to view details.</p>
+                </div>
+              </div>
+
+              <form class="form" id="addBillItemForm">
+                <div class="form__grid">
+                  <label class="field field--span2">
+                    <span class="field__label">Description</span>
+                    <input class="control" type="text" name="description" placeholder="e.g., Consultation fee" required />
+                  </label>
+                  <label class="field">
+                    <span class="field__label">Qty</span>
+                    <input class="control" type="number" name="qty" min="1" step="1" value="1" required />
+                  </label>
+                  <label class="field">
+                    <span class="field__label">Unit price</span>
+                    <input class="control" type="number" name="unit_price" min="0" step="0.01" value="0" required />
+                  </label>
+                </div>
+                <div class="form__actions">
+                  <button class="btn btn--ghost" type="submit">
+                    <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                    <span>Add Item to Selected Bill</span>
+                  </button>
+                  <div class="hint" id="addBillItemMsg" aria-live="polite"></div>
+                </div>
+              </form>
+              <div class="table-wrap" role="region" aria-label="Billing items table" tabindex="0">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Description</th>
+                      <th class="t-right">Qty</th>
+                      <th class="t-right">Unit</th>
+                      <th class="t-right">Line Total</th>
+                    </tr>
+                  </thead>
+                  <tbody id="billingItemsBody"></tbody>
+                </table>
+              </div>
+            </section>
+          </section>
+
+          <!-- =====================
+               SETTINGS PAGE
+               ===================== -->
+          <section class="page" data-page="settings" aria-label="Settings page">
+            <div class="page-header">
+              <div>
+                <div class="page-eyebrow">Preferences</div>
+                <h1 class="page-title">Settings</h1>
+                <p class="page-subtitle">Local UI settings (no backend).</p>
+              </div>
+            </div>
+
+            <section class="card" aria-label="UI settings">
+              <div class="card__header">
+                <div>
+                  <h2 class="card__title">UI</h2>
+                  <p class="card__subtitle">These settings are stored in your browser.</p>
+                </div>
+              </div>
+              <div class="settings">
+                <label class="setting">
+                  <span class="setting__label">
+                    <span class="setting__title">Reduce motion</span>
+                    <span class="setting__hint">Disables animations and transitions.</span>
+                  </span>
+                  <input type="checkbox" id="reduceMotionToggle" />
+                </label>
+              </div>
+            </section>
+          </section>
+
+          <!-- =====================
+               LOGOUT PAGE
+               ===================== -->
+          <section class="page" data-page="logout" aria-label="Logout page">
+            <div class="page-header">
+              <div>
+                <div class="page-eyebrow">Session</div>
+                <h1 class="page-title">Logout</h1>
+                <p class="page-subtitle">End the current session (demo).</p>
+              </div>
+            </div>
+
+            <section class="card" aria-label="Logout">
+              <div class="card__header">
+                <div>
+                  <h2 class="card__title">Confirm Logout</h2>
+                  <p class="card__subtitle">This is a UI-only action.</p>
+                </div>
+                <button class="btn" type="button" id="logoutBtn">
+                  <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+                  <span>Logout</span>
+                </button>
+              </div>
+              <div class="card__footer">
+                <div class="hint">
+                  <i class="fa-regular fa-circle-question" aria-hidden="true"></i>
+                  <span>Tip: You can navigate back anytime.</span>
+                </div>
+              </div>
+            </section>
+          </section>
+        </div>
+
+        <footer class="footer" aria-label="Footer">
+          <div>© <span id="year">2026</span> Hospital Management</div>
+          <div class="footer__right">
+            <span class="muted">UI Prototype • No backend</span>
+          </div>
+        </footer>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
